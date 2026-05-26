@@ -1,17 +1,13 @@
-import type { D1Database } from '@cloudflare/workers-types';
-
+// See https://svelte.dev/docs/kit/types#app.d.ts
+// for information about these interfaces
 declare global {
-  namespace App {
-    interface Platform {
-      env: {
-        DB: D1Database;
-      };
-      context: {
-        waitUntil(promise: Promise<unknown>): void;
-      };
-      caches: CacheStorage & { default: Cache };
-    }
-  }
+	namespace App {
+		interface Platform {
+			env: Env;
+			cf: CfProperties;
+			ctx: ExecutionContext;
+		}
+	}
 }
 
 export {};
