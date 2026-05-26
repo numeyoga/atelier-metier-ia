@@ -18,6 +18,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build SvelteKit
+        run: npm run build
+
       - name: Apply D1 migrations
         uses: cloudflare/wrangler-action@v3
         with:
@@ -30,4 +33,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy public --project-name=atelier-metier-ia
+          command: pages deploy .svelte-kit/cloudflare --project-name=atelier-metier-ia
