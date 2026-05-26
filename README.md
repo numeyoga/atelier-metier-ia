@@ -2,8 +2,8 @@
 
 ## Présentation
 
-Application fullstack minimaliste sur Cloudflare Pages.
-Frontend statique + API Pages Functions + base D1 (SQLite), tout sur une seule URL.
+Application fullstack SvelteKit sur Cloudflare Pages.
+SSR via SvelteKit + form actions + base D1 (SQLite), tout sur une seule URL.
 
 ## Prérequis
 
@@ -23,22 +23,24 @@ Deux secrets GitHub sont requis dans **Settings → Secrets and variables → Ac
 
 ## Déploiement
 
-Tout push sur `main` déclenche l'Action GitHub automatiquement.
+Tout push sur `main` déclenche l'Action GitHub automatiquement : build SvelteKit → migrations D1 → déploiement Pages.
 
 URL de l'application : `https://atelier-metier-ia.pages.dev`
 
-## Endpoints de l'API
+## Architecture
 
-| Méthode | Endpoint         | Description              |
-|---------|------------------|--------------------------|
-| GET     | /api/items       | Liste tous les items     |
-| POST    | /api/items       | Crée un item `{ name }`  |
-| DELETE  | /api/items/:id   | Supprime un item         |
+| Fichier | Rôle |
+|---------|------|
+| `src/routes/+page.svelte` | UI Svelte 5 (liste + formulaire) |
+| `src/routes/+page.server.ts` | `load` (lecture D1) + form actions (create, delete) |
+| `src/app.d.ts` | Typage `App.Platform` pour D1 |
+| `migrations/0001_init.sql` | Schéma de la table `items` |
 
 ## Développement local
 
 ```bash
 npm install
-npx wrangler d1 migrations apply atelier-metier-ia  # migrations en local
-npm run dev                                           # http://localhost:8788
+npm run db:migrate:local          # applique les migrations en local
+npm run dev                        # http://localhost:5173 (vite dev, sans D1)
+npm run build && npm run preview   # http://localhost:8788 (wrangler, avec D1)
 ```
