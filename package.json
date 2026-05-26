@@ -1,0 +1,15 @@
+{
+  "name": "atelier-metier-ia",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev":               "wrangler pages dev public --d1=DB",
+    "deploy":            "wrangler pages deploy public --project-name=atelier-metier-ia",
+    "db:migrate:local":  "wrangler d1 migrations apply atelier-metier-ia",
+    "db:migrate:remote": "wrangler d1 migrations apply atelier-metier-ia --remote"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.0.0",
+    "wrangler": "^3.0.0"
+  }
+}
